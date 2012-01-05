@@ -15,8 +15,8 @@ class Ga_api {
 	
 	//compte
 	var $profile_id		= 'ga:';
-	var $email 			= 'email@test.com';
-	var $password		= 'testing';
+	var $email 			= '';
+	var $password		= '';
 	var $data_home 		= 'https://www.google.com/analytics/feeds/data?';
 	var $accounts_home	= 'https://www.google.com/analytics/feeds/accounts/default';
 	var $login_home		= 'https://www.google.com/accounts/ClientLogin';

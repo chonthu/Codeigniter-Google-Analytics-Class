@@ -1,0 +1,12 @@
+.DS_Store
+._*
+*~
+nbproject
+*.html.gz
+*.js.gz
+*.css.gz
+*.xml.gz
+*.eot.gz
+*.svg.gz
+*.ttf.gz
+*.woff.gz

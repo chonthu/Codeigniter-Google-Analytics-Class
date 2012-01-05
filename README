@@ -11,3 +11,6 @@ $data = $this->ga
 	->metric('impressions')
 	->limit(30)
 	->get_object();
+
+// grab all profiles within your account
+$data['accounts'] = $this->ga_api->login()->get_accounts();

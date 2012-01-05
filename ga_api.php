@@ -2,7 +2,7 @@
 
 /* Name        : gap_api.php
 *  Description : Codeigniter Library Class for Google Analytics API
-*  Creation	   : 27/06/2010
+*  Creation	   : 01/05/2011
 *  Version	   : 0,2
 *  Author	   : Nithin Meppurathu
 */

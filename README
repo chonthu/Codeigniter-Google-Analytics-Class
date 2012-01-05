@@ -1,0 +1,13 @@
+How to Use
+
+$this->load->library('ga_api');
+
+// Set new porfile id
+$this->ga = $this->ga_api->init(array('profile_id' => 'ga:182918291281'));
+
+// grab google data
+$data = $this->ga
+	->dimension('adGroup , campaign , adwordsCampaignId , adwordsAdGroupId')
+	->metric('impressions')
+	->limit(30)
+	->get_object();

@@ -14,7 +14,7 @@ class Ga_api {
 	private $ci;
 	
 	//compte
-	var $profile_id		= 'ga:';
+	var $profile_id		= '';
 	var $email 			= '';
 	var $password		= '';
 	var $data_home 		= 'https://www.google.com/analytics/feeds/data?';
@@ -40,11 +40,22 @@ class Ga_api {
 	var $cache_data		= false;
 	var $cache_accounts	= false;
 	var $acc_vars		= '';
-	var $source_name	= '';
+	var $source_name	= 'Codeigniter';
 
 	function __construct()
 	{
 		$this->ci =& get_instance();
+		$this->ci->load->config('ga_api');
+
+		$this->profile_id 	= $this->ci->config->item('profile_id');
+		$this->email 		= $this->ci->config->item('email');
+		$this->password 	= $this->ci->config->item('password');
+
+		$this->cache_data 	= $this->ci->config->item('cache_data');
+		$this->cache_folder = $this->ci->config->item('cache_folder');
+		$this->clear_cache 	= $this->ci->config->item('clear_cache');
+			
+		$this->debug 		= $this->ci->config->item('debug');
 	}
 	
 	// --------------------------------------------------------------------
@@ -77,7 +88,7 @@ class Ga_api {
 		{
 			if (isset($this->$key)) $this->$key = $val;
 		}
-		if (isset($config['clear_cache'])) $this->clear_cache($config['clear_cache']);
+		if (isset($this->ci->config['clear_cache'])) $this->clear_cache($this->clear_cache);
 	}
 
 	//---------------------------------------------------------------------------------------------
@@ -120,8 +131,9 @@ class Ga_api {
 				}
 			}
 			$this->ci->session->set_userdata('ga_auth', $this->auth);
+			$this->auth = $this->ci->session->userdata('ga_auth');
 		}
-		
+
 		if (! $this->auth) return false;
 		
 		return $this;
@@ -642,7 +654,7 @@ class Ga_api {
 		if (! $this->stop) $this->stop = $this->_parse_time('yesterday');
 		if (! $this->sort_by) $this->sort_by= '-'.$this->metric;
 						
-		$url  = "ids=".$this->profile_id;
+		$url  = "ids=ga:".$this->profile_id;
 		if ($this->dimension) $url .= "&dimensions=".$this->dimension;
 		if ($this->metric) $url .= "&metrics=".$this->metric;
 		if ($this->segment) $url .= "&segment=gaid::".$this->segment;
@@ -673,7 +685,7 @@ class Ga_api {
 			"Authorization: GoogleLogin auth=$this->auth",
 			"GData-Version: 2"
 		);
-		
+
 		$ch = $this->curl_init($url);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		$output = curl_exec($ch);

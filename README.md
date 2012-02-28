@@ -1,16 +1,17 @@
-#Codeignited Google Api Documentation
+#Codeigniter Google Analytics Api Documentation
 
 #### Requires sessions
 
 ## Getting started
 
 1. Download this class
-2. Copy over config file into your codeigniter config
-3. Copy over the libarary file into your library folder
+2. Copy over config file into your codeigniter config folder
+3. Autoload sessions and set session key in main config file
+3. Copy over the library file into your library folder
 4. Navigate to your new ga_api.php config file and change 
 
-	$config['profile_id'] // Your default google anbalytics profile id
-	(please note you can access this id from lookign your google analytics account under > settings -> profiles -> profile settings)
+	$config['profile_id'] // Your default Google analytics profile id
+	(please note you can access this id from looking your Google analytics account under > settings -> profiles -> profile settings)
 
 	$config['email']		= 'example@mail.com'; // GA Account mail
 	$config['password']		= 'xxxxxxx'; // GA Account password
@@ -21,10 +22,10 @@
 
 	$this->load->library('ga_api');
 
-	// Set new porfile id if not the default id within your config document
+	// Set new profile id if not the default id within your config document
 	$this->ga = $this->ga_api->login()->init(array('profile_id' => '182918291281'));
 
-	// Query google metrics and dimensions
+	// Query Google metrics and dimensions
 	// Documentation: http://code.google.com/apis/analytics/docs/gdata/dimsmets/dimsmets.html)
 	$data = $this->ga
 		->dimension('adGroup , campaign , adwordsCampaignId , adwordsAdGroupId')
@@ -40,7 +41,7 @@
 		->get_object();
 
 
-	// Please note you can also query against your account and find all the profiles assiated with it by
+	// Please note you can also query against your account and find all the profiles associated with it by
 	// grab all profiles within your account
 	$data['accounts'] = $this->ga_api->login()->get_accounts();
 

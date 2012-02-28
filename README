@@ -41,3 +41,30 @@
 Please note you can also query against your account and find all the profiles assiated with it by
 	// grab all profiles within your account
 	$data['accounts'] = $this->ga_api->login()->get_accounts();
+
+## Additional Metric Filters
+
+	filter
+	and_filter
+	or_filter
+	when
+	sort_by
+	limit
+	offset
+	segment
+	dsegment
+	and_dsegment
+	or_dsegment
+
+## Response types
+
+	get
+	get_object
+	get_array
+
+## Clear for cache
+
+	clear // cleat init values
+	clear_login_data // clear username & password
+	clear_cache	 // clear cache folder
+

@@ -17,20 +17,22 @@
 
 5. Once your config is updated, within your controller you can now.
 
+## Example Usage
+
 	$this->load->library('ga_api');
 
-	// Set new porfile id if not the default id within your config document
+	#### Set new porfile id if not the default id within your config document
 	$this->ga = $this->ga_api->login()->init(array('profile_id' => '182918291281'));
 
-	// Query google metrics and dimensions
-	(Documentation: http://code.google.com/apis/analytics/docs/gdata/dimsmets/dimsmets.html)
+	#### Query google metrics and dimensions
+	#####Documentation: http://code.google.com/apis/analytics/docs/gdata/dimsmets/dimsmets.html)
 	$data = $this->ga
 		->dimension('adGroup , campaign , adwordsCampaignId , adwordsAdGroupId')
 		->metric('impressions')
 		->limit(30)
 		->get_object();
 
-	// Also please note, if you using default values you still need to init()
+	#####Also please note, if you using default values you still need to init()
 	$data = $this->ga_api->login()
 		->dimension('adGroup , campaign , adwordsCampaignId , adwordsAdGroupId')
 		->metric('impressions')
@@ -38,7 +40,7 @@
 		->get_object();
 
 
-Please note you can also query against your account and find all the profiles assiated with it by
+	#####Please note you can also query against your account and find all the profiles assiated with it by
 	// grab all profiles within your account
 	$data['accounts'] = $this->ga_api->login()->get_accounts();
 

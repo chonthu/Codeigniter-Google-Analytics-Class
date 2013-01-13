@@ -1,5 +1,7 @@
 <?php
 
+namespace Google;
+
 /* Name        : gap_api.php
 *  Description : Codeigniter Library Class for Google Analytics API
 *  Creation	   : 01/05/2011
@@ -7,7 +9,7 @@
 *  Author	   : Nithin Meppurathu
 */
 
-class Ga_api {
+class Analytics {
 
 	private	$auth;
 	private	$accounts;
@@ -42,53 +44,24 @@ class Ga_api {
 	var $acc_vars		= '';
 	var $source_name	= 'Codeigniter';
 
-	function __construct()
+	function __construct($config = array())
 	{
-		$this->ci =& get_instance();
-		$this->ci->load->config('ga_api');
+		$this->profile_id 	= $config['profile_id'];
+		$this->email 		= $config['email'];
+		$this->password 	= $config['password'];
 
-		$this->profile_id 	= $this->ci->config->item('profile_id');
-		$this->email 		= $this->ci->config->item('email');
-		$this->password 	= $this->ci->config->item('password');
-
-		$this->cache_data 	= $this->ci->config->item('cache_data');
-		$this->cache_folder = $this->ci->config->item('cache_folder');
-		$this->clear_cache 	= $this->ci->config->item('clear_cache');
-			
-		$this->debug 		= $this->ci->config->item('debug');
-	}
-	
-	// --------------------------------------------------------------------
-	/**
-	 * GA_Api function.
-	 * Contructor
-	 * 
-	 * @access public
-	 * @param array $config. (default: array())
-	 * @return void
-	 */
-	function init($config = array())
-	{	
-		if (count($config) > 0) $this->initialize($config);
-		return $this;
-	}
-	
-	// --------------------------------------------------------------------
-	/**
-	 * Initialize the user preferences
-	 * Accepts an associative array as input, containing display preferences
-	 *
-	 * @access	public
-	 * @param	array	config preferences
-	 * @return	void
-	 */	
-	function initialize($config = array())
-	{		
-		foreach ($config as $key => $val)
+		if(isset($config['cache_data']))
 		{
-			if (isset($this->$key)) $this->$key = $val;
+			if($config['cache_data'])
+			{
+				$this->cache_data 	= $config['cache_data'];
+				$this->cache_folder = $config['cache_folder'];
+				$this->clear_cache 	= $config['clear_cache'];
+			}
 		}
-		if (isset($this->ci->config['clear_cache'])) $this->clear_cache($this->clear_cache);
+		
+		if(isset($config['debug']))
+			$this->debug = $config['debug'];
 	}
 
 	//---------------------------------------------------------------------------------------------
@@ -104,8 +77,8 @@ class Ga_api {
 		if ($email) $this->email = $email;
 		if ($password) $this->password = $password;
 		
-		$this->ci->load->library('session');
-		$this->auth = $this->ci->session->userdata('ga_auth');
+		//$this->ci->load->library('session');
+		//$this->auth = $this->ci->session->userdata('ga_auth');
 		
 		if (! $this->auth)
 		{
@@ -116,6 +89,9 @@ class Ga_api {
 				'service' 	=> 'analytics',
 				'source' 	=> $this->source_name
 			);
+
+			echo '<pre>';
+			print_r($data);
 
 			$ch = $this->curl_init($this->login_home);
 			curl_setopt($ch, CURLOPT_POST, true);			
@@ -130,8 +106,8 @@ class Ga_api {
 					$this->auth = $matches[1];
 				}
 			}
-			$this->ci->session->set_userdata('ga_auth', $this->auth);
-			$this->auth = $this->ci->session->userdata('ga_auth');
+			//$this->ci->session->set_userdata('ga_auth', $this->auth);
+			//$this->auth = $this->ci->session->userdata('ga_auth');
 		}
 
 		if (! $this->auth) return false;
@@ -151,7 +127,7 @@ class Ga_api {
 	function get_accounts($object = true) 
 	{		
 		$this->acc_file = $this->call($this->accounts_home);
-		$dom = new DOMDocument();
+		$dom = new \DOMDocument();
 		$dom->loadXML($this->acc_file);
 		
 		//segments
@@ -424,9 +400,10 @@ class Ga_api {
 			
 			if ($this->debug) 
 			{
-			    if (PHP_SAPI == 'cli') $this->ci->ouput->set_output("$url\n");
-			    else $this->ci->output->set_output("<p>" . htmlentities($url) . "</p>\n");
+			    echo '<pre>';
+			    print_r($url);
 			}
+
 			if (file_exists($this->cache_folder.md5($this->query_string).'.'.$this->cache_ext) && $this->cache_data == true)
 			{
 			    $this->data_file = file_get_contents($this->cache_folder.md5($this->query_string).'.'.$this->cache_ext);
@@ -555,6 +532,7 @@ class Ga_api {
 	 */
 	function _array_to_object($array) 
 	{
+		$object = new \stdClass();
 		foreach ($array as $key => $value) 
 		{
 			$object->$key = is_array($value) ? $this->_array_to_object($value) : $value;
@@ -576,7 +554,7 @@ class Ga_api {
 		if (! $xml) return false;
 		
 		$this->api_error = false;
-		$dom = new DOMDocument();
+		$dom = new \DOMDocument();
 		$dom->loadXML($xml);
 		
 		//résumé
@@ -810,10 +788,10 @@ class Ga_api {
 	 */
 	function clear_login_data()
 	{
-		$this->ci =& get_instance();
-		$this->ci->load->library('session');
+		//$this->ci =& get_instance();
+		//$this->ci->load->library('session');
 		
-		$this->ci->session->unset_userdata('ga_auth');
+		//$this->ci->session->unset_userdata('ga_auth');
 		$this->auth = false;
 	}
 	

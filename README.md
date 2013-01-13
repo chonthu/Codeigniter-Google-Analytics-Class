@@ -1,23 +1,5 @@
 #Codeigniter Google Analytics Api Documentation
 
-#### Requires sessions
-
-## Getting started
-
-1. Download this class
-2. Copy over config file into your codeigniter config folder
-3. Autoload sessions and set session key in main config file
-3. Copy over the library file into your library folder
-4. Navigate to your new ga_api.php config file and change 
-
-	$config['profile_id'] // Your default Google analytics profile id
-	(please note you can access this id from looking your Google analytics account under > settings -> profiles -> profile settings)
-
-	$config['email']		= 'example@mail.com'; // GA Account mail
-	$config['password']		= 'xxxxxxx'; // GA Account password
-
-5. Once your config is updated, within your controller you can now.
-
 ## Example Usage
 
 	$this->load->library('ga_api');

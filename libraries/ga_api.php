@@ -88,7 +88,7 @@ class Ga_api {
 		{
 			if (isset($this->$key)) $this->$key = $val;
 		}
-		if (isset($this->ci->config['clear_cache'])) $this->clear_cache($this->clear_cache);
+		if (isset($this->ci->config->clear_cache)) $this->clear_cache($this->clear_cache);
 	}
 
 	//---------------------------------------------------------------------------------------------

@@ -718,11 +718,15 @@ class Ga_api {
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: GoogleLogin auth=$this->auth"));
 		}
 
-		// the following thanks to Kyle from www.e-strategy.net
-		// i didn't need these settings myself on a Linux box but he seemed to need them on a Windows one
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		// Check for safe mode, CURLOPT_FOLLOWLOCATION will throw an error if safe mode is active
+		if( ini_get('safe_mode') != FALSE ) {
+
+			// the following thanks to Kyle from www.e-strategy.net
+			// i didn't need these settings myself on a Linux box but he seemed to need them on a Windows one
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    		}
 		
 		return $ch;
 	}

@@ -1,4 +1,4 @@
-#Codeigniter Google Analytics Api Documentation
+#[Deprecated] Codeigniter Google Analytics Api Documentation
 
 #### Requires sessions
 
